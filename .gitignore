@@ -42,5 +42,5 @@ next-env.d.ts
 
 
 #file
-README.md
-/json/
+./README.md
+./json/database.json
