@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import clientPromise from '@/lib/mongodb';
 
 
-export async function POST(req: Request) {
+export async function POST(req) {
     const { name, password } = await req.json();
   
     if (!name || !password) {
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   
     try {
       const client = await clientPromise;
-      const db = client.db(); // หรือใส่ชื่อ DB เช่น db('mydb')
+      const db = client.db();
       const users = db.collection('users');
   
       const user = await users.findOne({ name, password });

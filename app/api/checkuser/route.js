@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectMongoDB } from "@/lib/mongodb";
-import user from "@/models/user"; // ✅ ชื่อ class หรือ model ต้องตรงกับที่ export
+import user from "@/models/user"; // 
 
 export async function POST(req) {
     try {

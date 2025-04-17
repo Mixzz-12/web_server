@@ -5,5 +5,5 @@ const userSchema = new mongoose.Schema({
   password: String,
 });
 
-// 👇 เพิ่ม "testdata" เป็นชื่อ collection ที่ใช้จริงใน MongoDB
+
 export default mongoose.models.User || mongoose.model("User", userSchema, "testdata");
