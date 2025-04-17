@@ -1,25 +1,42 @@
 'use client'
 
-import react from "react";
+import React from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 
-function Navbar () {
-    return (
-        <nav className="bg-[#333] text-white p-5">
-            <div className="container mx-auto">
-                <div className="flex justify-between items-center">
-                    <div>
-                        <Link href="/">Nextauth</Link>
-                    </div>
-                    <ul>
-                        <li className="mx-3"><Link href="/login">Sign In</Link></li>
-                        <li className="bg-red-500 text-white px-4 py-2 rounded"><button onClick={() => signOut({ callbackUrl: "/" })}>Sign Out</button></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    )
+function Navbar() {
+  return (
+    <nav className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          {/* Logo / Brand */}
+          <Link href="/" className="text-lg font-semibold text-gray-800 hover:text-black transition">
+            nextauth
+          </Link>
+
+          {/* Navigation / Actions */}
+          <ul className="flex items-center space-x-4 text-sm font-medium">
+            <li>
+              <Link
+                href="/login"
+                className="text-gray-600 hover:text-black transition"
+              >
+                Sign In
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="bg-gray-900 text-white px-4 py-1.5 rounded-md hover:bg-black transition cursor-pointer"
+              >
+                Sign Out
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
 }
 
-export default Navbar
+export default Navbar;
