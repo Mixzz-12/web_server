@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import clientPromise from '@/lib/mongodb';
+import { connectMongoDB } from '@/lib/mongodb';
 
 
 export async function POST(req) {
@@ -10,7 +10,7 @@ export async function POST(req) {
     }
   
     try {
-      const client = await clientPromise;
+      const client = await connectMongoDB;
       const db = client.db();
       const users = db.collection('users');
   
