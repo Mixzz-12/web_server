@@ -1,0 +1,28 @@
+[
+    {
+      "critizen_id": "1000000000000",
+      "name": "สมชาย ใจดี",
+      "age": "58",
+      "height": "167",
+      "weight": "60",
+      "gender": "ชาย",
+      "nation": "ไทย",
+      "religion": "พุทธ",
+      "history": [
+        {
+          "date": "2024-01-23",
+          "medical": {
+            "paracetalmal": 100,
+            "vitamin C": 50
+          }
+        },
+        {
+          "date": "2024-02-05",
+          "medical": {
+            "ibuprofen": 200
+          }
+        }
+      ]
+    }
+  ]
+  

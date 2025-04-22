@@ -54,7 +54,7 @@ export default function PageLogin() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 transition "
           required
         />
 
@@ -66,7 +66,7 @@ export default function PageLogin() {
 
         <button
           type="submit"
-          className="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-black transition"
+          className="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-black transition cursor-pointer"
         >
           Login
         </button>

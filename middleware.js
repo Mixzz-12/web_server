@@ -1,8 +1,8 @@
 // middleware.js
-import { middleware  } from "./auth.middleware";
+import { middleware as authMiddleware } from "./auth.middleware";
 
 export const config = {
-  matcher: ["/welcome"], // ✅ หรือใช้ ["/welcome", "/dashboard/:path*"]
+  matcher: ["/welcome:path*"], // หรือใช้ ["/welcome", "/dashboard/:path*"]
 };
 
-export default middleware;
+export default authMiddleware;
