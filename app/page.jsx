@@ -1,13 +1,16 @@
 'use client';
 
-import Image from "next/image";
+
 import Navbar from "./components/Navbar";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import AnimatedWave from "./components/motion/AnimatedWave";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-white to-gray-100">
+    
+    <main className="min-h-screen bg-gradient-to-br from-white to-gray-100 ">
+      <AnimatedWave />
       <Navbar />
       <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)] px-4 text-center space-y-6">
 
@@ -15,7 +18,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl font-light text-gray-800"
+          className="text-6xl font-bold text-gray-800"
         >
           Welcome
         </motion.h1>

@@ -2,22 +2,22 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import LoadingOverlay from '@/app/components/LoadingOverlay'; // ✅ import overlay ที่สร้างไว้
+import LoadingOverlay from '@/app/components/LoadingOverlay'; // import overlay ที่สร้างไว้
 
 export default function SearchForm() {
   const [query, setQuery] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // ✅ state สำหรับ loading
+  const [loading, setLoading] = useState(false); // state สำหรับ loading
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(true); // ✅ เริ่มโหลด
+    setLoading(true); // เริ่มโหลด
 
     if (!query.trim()) {
       setError('กรุณากรอกข้อมูล');
-      setLoading(false); // ❗หยุดโหลดถ้ามี error
+      setLoading(false); //หยุดโหลดถ้ามี error
       return;
     }
 
@@ -39,13 +39,13 @@ export default function SearchForm() {
       console.error(err);
       setError('เกิดข้อผิดพลาด');
     } finally {
-      setLoading(false); // ✅ หยุดโหลดหลังจากทำเสร็จ
+      setLoading(false); // หยุดโหลดหลังจากทำเสร็จ
     }
   };
 
   return (
     <>
-      {loading && <LoadingOverlay />} {/* ✅ แสดง overlay เมื่อ loading */}
+      {loading && <LoadingOverlay />} {/*แสดง overlay เมื่อ loading */}
       
       <form onSubmit={handleSubmit} className="space-y-2 relative z-10">
         <input
@@ -63,7 +63,7 @@ export default function SearchForm() {
 
         <button
           type="submit"
-          className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition"
+          className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition cursor-pointer"
         >
           search
         </button>

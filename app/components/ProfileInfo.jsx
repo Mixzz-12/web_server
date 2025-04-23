@@ -1,14 +1,14 @@
 'use client';
 
-
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import LoadingOverlay from './LoadingOverlay';
 
 export default function ProfileInfo() {
   const { citizen_id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     if (!citizen_id) return;
 
@@ -32,7 +32,7 @@ export default function ProfileInfo() {
     fetchData();
   }, [citizen_id]);
 
-  if (loading) return <p className="text-center text-gray-500 mt-10">⏳ กำลังโหลดข้อมูล...</p>;
+  if (loading) return <LoadingOverlay/>;
   if (!data) return <p className="text-center text-red-500 mt-10">❌ ไม่มีข้อมูล</p>;
   if (!data.found) return <p className="text-center text-red-500 mt-10">❌ ไม่พบผู้ป่วยในระบบ</p>;
 

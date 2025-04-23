@@ -117,7 +117,7 @@ export default function AddPatientPage() {
             type="submit"
             disabled={loading}
             className={`w-full py-2 rounded-lg text-white transition ${
-              loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-800 hover:bg-gray-900'
+              loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-800 hover:bg-gray-900 cursor-pointer'
             }`}
           >
             {loading ? '⏳ กำลังบันทึก...' : '➕ บันทึกข้อมูล'}

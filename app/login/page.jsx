@@ -4,16 +4,18 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
-
+import LoadingOverlay from "../components/LoadingOverlay";
 
 export default function PageLogin() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     setError("");
 
     const res = await signIn("credentials", {
@@ -24,6 +26,7 @@ export default function PageLogin() {
 
     if (res?.error) {
       setError("Login failed. Please check your username and password.");
+      setLoading(false)
       setPassword("");
     } else {
       router.replace("/welcome");
@@ -32,6 +35,7 @@ export default function PageLogin() {
 
   return (
     <>
+    {loading && <LoadingOverlay />}
     <Navbar/>
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-white to-gray-100 px-4">
       
