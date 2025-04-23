@@ -17,6 +17,17 @@ const patientSchema = new mongoose.Schema({
         of: Number
       }
     }
+  ],
+  medications: [
+    {
+      name: String,
+      quantity: String,
+      timing: {
+        meal: String,
+        times: [String]
+      },
+      note: String
+    }
   ]
 });
 

@@ -124,7 +124,7 @@ export default function ProfileInfo() {
   <div className="col-span-1 lg:col-span-2">
     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
       <h3 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
-        📁 ประวัติการรักษา
+        📁 ประวัติการจ่ายยา
       </h3>
 
       {data.patient.history.length === 0 ? (

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import LoadingOverlay from '../LoadingOverlay';
 
 export default function PatientSidebarRight() {
   const { citizen_id } = useParams();
@@ -35,9 +36,7 @@ export default function PatientSidebarRight() {
   // ✅ แสดงข้อความขณะโหลด
   if (loading) {
     return (
-      <aside className="w-72 bg-white px-6 py-8 border-l border-gray-100 shadow-sm hidden lg:flex items-center justify-center text-center">
-        <p className="text-gray-500 text-sm">⏳ กำลังโหลดข้อมูล...</p>
-      </aside>
+      <LoadingOverlay/>
     );
   }
 

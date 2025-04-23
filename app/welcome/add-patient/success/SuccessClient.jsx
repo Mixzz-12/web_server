@@ -13,19 +13,20 @@ export default function SuccessClient() {
       if (citizen_id) {
         router.push(`/welcome/profile/${citizen_id}`);
       }
-    }, 3000);
-
+    }, 2000);
     return () => clearTimeout(timer);
   }, [citizen_id]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="bg-white shadow-md rounded-xl p-8 max-w-md w-full text-center animate-fade-in">
-        <div className="text-5xl mb-4 text-green-500 animate-pulse">✅</div>
-        <h1 className="text-2xl font-semibold text-gray-800 mb-2">
-          บันทึกข้อมูลสำเร็จ!
-        </h1>
-        <p className="text-gray-600 text-sm">กำลังกลับไปยังข้อมูลผู้ป่วย...</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-gray-100 px-4">
+      <div className="bg-white shadow-xl rounded-2xl p-10 max-w-md w-full text-center animate-fade-in space-y-4">
+        <div className="w-16 h-16 mx-auto rounded-full bg-green-100 flex items-center justify-center">
+          <span className="text-3xl text-green-500 animate-ping-slow">✓</span>
+        </div>
+        <h1 className="text-2xl font-medium text-gray-800">บันทึกสำเร็จ</h1>
+        <p className="text-sm text-gray-500">
+          ระบบกำลังนำคุณไปยังหน้าข้อมูลผู้ป่วย...
+        </p>
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import Navlogout from "../components/Navlogout";
 import SearchForm from "../components/search_form";
 import AddPatientButton from "../components/button/adddatabutton";
 
+
+
 export default async function WelcomePage() {
   const session = await auth();
 

@@ -4,15 +4,14 @@
 import Navbar from "./components/Navbar";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import AnimatedWave from "./components/motion/AnimatedWave";
+import AnimatedBlob from "./components/motion/AnimatedBlob";
 
 export default function Home() {
   return (
     
-    <main className="min-h-screen bg-gradient-to-br from-white to-gray-100 ">
-      <AnimatedWave />
+    <main className="relative min-h-screen bg-gradient-to-br from-white to-gray-100">
       <Navbar />
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)] px-4 text-center space-y-6">
+      <div className="relative z-10 flex flex-col items-center justify-center h-[calc(100vh-80px)] px-4 text-center space-y-6">
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -57,6 +56,8 @@ export default function Home() {
           </motion.button>
         </motion.div>
       </div>
+      <AnimatedBlob />
     </main>
+    
   );
 }

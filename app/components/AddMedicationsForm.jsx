@@ -20,6 +20,7 @@ export default function AddMedicationsForm() {
   const addMedicationField = () => {
     if (medications.length >= 6) return;
 
+
     setMedications([
       ...medications,
       {
@@ -30,6 +31,12 @@ export default function AddMedicationsForm() {
         note: ''
       }
     ]);
+  };
+
+  const removeMedicationField = (index) => {
+    const updated = [...medications];
+    updated.splice(index, 1); // ลบ field ที่ตำแหน่ง index
+    setMedications(updated);
   };
 
   const updateMedication = (index, field, value) => {
@@ -98,7 +105,18 @@ export default function AddMedicationsForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-xl mx-auto">
       {medications.map((med, index) => (
-        <div key={index} className="space-y-5 p-8 rounded-2xl shadow-lg bg-white w-full max-w-3xl mx-auto">
+        <div key={index} className="relative space-y-5 p-8 rounded-2xl shadow-lg bg-white w-full max-w-3xl mx-auto">
+
+          {medications.length > 1 && (
+            <button
+              type="button"
+              onClick={() => removeMedicationField(index)}
+              className="absolute -top-3 -right-3 bg-gray-300 hover:bg-red-200 text-gray-600 hover:text-red-400 w-7 h-7 rounded-full flex items-center justify-center shadow-sm transition cursor-pointer"
+              title="remove this order"
+            >
+             <span className="text-base font-bold leading-none">×</span>
+            </button>
+          )}
           {/* ช่องยา */}
           <select
             value={med.compartment}

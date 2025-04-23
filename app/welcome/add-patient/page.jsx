@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import AnimatedBlob from '@/app/components/motion/AnimatedBlob';
+import Navlogout from '@/app/components/Navlogout';
+
 
 export default function AddPatientPage() {
   const [form, setForm] = useState({
@@ -62,8 +65,11 @@ export default function AddPatientPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div>
+      <Navlogout/>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="bg-white shadow-md rounded-xl p-8 max-w-md w-full">
+        
         <h1 className="text-2xl font-semibold text-gray-800 mb-6 text-center">เพิ่มข้อมูลผู้ป่วย</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4 text-sm">
@@ -124,6 +130,9 @@ export default function AddPatientPage() {
           </button>
         </form>
       </div>
+      
+      <AnimatedBlob/>
+    </div>
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import LoadingOverlay from "../components/LoadingOverlay";
+import AnimatedBlob from "../components/motion/AnimatedBlob";
+
 
 export default function PageLogin() {
   const [user, setUser] = useState("");
@@ -37,7 +39,7 @@ export default function PageLogin() {
     <>
     {loading && <LoadingOverlay />}
     <Navbar/>
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-white to-gray-100 px-4">
+    <div className="bg-white flex items-center justify-center min-h-screen bg-gradient-to-br from-white to-gray-100 px-4">
       
       <form
         onSubmit={handleSubmit}
@@ -76,6 +78,7 @@ export default function PageLogin() {
         </button>
       </form>
     </div>
+    <AnimatedBlob/>
     </>
   );
 }
