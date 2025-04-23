@@ -1,27 +1,59 @@
+'use client';
+
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-white to-gray-100">
       <Navbar />
-      <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)] px-4 text-center">
-        <h1 className="text-4xl font-light text-gray-800 mb-8">Welcome</h1>
-        <p className="text-gray-500 mb-6">Please choose your role to continue</p>
+      <div className="flex flex-col items-center justify-center h-[calc(100vh-80px)] px-4 text-center space-y-6">
 
-        <div className="flex space-x-4">
-          <Link href='/login'>
-          <button className="px-6 py-2 bg-gray-900 text-white rounded-md hover:bg-black transition cursor-pointer">
-            I'm a Doctor
-          </button>
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-4xl font-light text-gray-800"
+        >
+          Welcome
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="text-gray-500"
+        >
+          Please choose your role to continue
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="flex space-x-4"
+        >
+          <Link href="/login">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-2 bg-gray-900 text-white rounded-md hover:bg-black transition cursor-pointer"
+            >
+              I'm a Doctor
+            </motion.button>
           </Link>
-          <button className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition cursor-pointer">
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition cursor-pointer"
+          >
             I'm a Client
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
     </main>
   );
 }
-
