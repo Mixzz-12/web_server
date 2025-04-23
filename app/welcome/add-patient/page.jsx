@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AddPatientPage() {
   const [form, setForm] = useState({
@@ -14,13 +15,28 @@ export default function AddPatientPage() {
     religion: '',
   });
 
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
+  const validateForm = () => {
+    return Object.values(form).every((field) => field.trim() !== '');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const res = await fetch('/api/add_patient', {
         method: 'POST',
@@ -28,14 +44,20 @@ export default function AddPatientPage() {
         body: JSON.stringify(form),
       });
 
-      if (res.ok) {
-        alert('บันทึกข้อมูลสำเร็จ');
-        // redirect หรือเคลียร์ form ได้ตามต้องการ
+      const data = await res.json();
+
+      if (res.status === 201) {
+        router.push(`/welcome/add-patient/success?citizen_id=${form.critizen_id}`);
+      } else if (res.status === 200 && data.patient) {
+        alert('⚠️ ผู้ป่วยคนนี้มีอยู่แล้วในระบบ');
       } else {
-        alert('เกิดข้อผิดพลาด');
+        alert('❌ เกิดข้อผิดพลาดในการบันทึก');
       }
     } catch (err) {
       console.error('Error submitting:', err);
+      alert('❌ เกิดข้อผิดพลาด');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,39 +82,45 @@ export default function AddPatientPage() {
                 type="text"
                 name={name}
                 value={form[name]}
-                onChange={(e) => {
-                    const value = e.target.value;
-                    if (/^\d*$/.test(value) && value.length <= 13) {
-                      setForm({ ...form, critizen_id: value });
-                    }
-                  }}
-                maxLength={13}
+                onChange={
+                  name === 'critizen_id'
+                    ? (e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value) && value.length <= 13) {
+                          setForm({ ...form, [name]: value });
+                        }
+                      }
+                    : handleChange
+                }
+                maxLength={name === 'critizen_id' ? 13 : undefined}
                 className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
               />
             </div>
-            
-            
           ))}
-          <div>
-  <label className="block mb-1 text-gray-600">เพศ</label>
-  <select
-    name="gender"
-    value={form.gender}
-    onChange={handleChange}
-    className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white"
-  >
-    <option value="ชาย">ชาย</option>
-    <option value="หญิง">หญิง</option>
-    <option value="อื่นๆ">อื่นๆ</option>
-  </select>
-</div>
 
+          <div>
+            <label className="block mb-1 text-gray-600">เพศ</label>
+            <select
+              name="gender"
+              value={form.gender}
+              onChange={handleChange}
+              className="w-full border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white"
+            >
+              <option value="">-- เลือกเพศ --</option>
+              <option value="ชาย">ชาย</option>
+              <option value="หญิง">หญิง</option>
+              <option value="อื่นๆ">อื่นๆ</option>
+            </select>
+          </div>
 
           <button
             type="submit"
-            className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-900 transition"
+            disabled={loading}
+            className={`w-full py-2 rounded-lg text-white transition ${
+              loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-800 hover:bg-gray-900'
+            }`}
           >
-            ➕ บันทึกข้อมูล
+            {loading ? '⏳ กำลังบันทึก...' : '➕ บันทึกข้อมูล'}
           </button>
         </form>
       </div>

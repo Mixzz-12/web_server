@@ -51,11 +51,11 @@ export default function ProfileInfo() {
   
         {/* Menu */}
         <nav className="flex flex-col gap-5 mt-6 text-sm text-gray-700 font-medium">
-          <a href="#" className="flex items-center gap-4 px-3 py-2 rounded-md hover:bg-gray-100 text-indigo-600 font-semibold">
+          <a href={`/welcome/profile/${citizen_id}`} className="flex items-center gap-4 px-3 py-2 rounded-md hover:bg-gray-100 text-indigo-600 font-semibold">
             📋 <span>ข้อมูลผู้ป่วย</span>
           </a>
           <a href={`/welcome/profile/${citizen_id}/history`} className="flex items-center gap-4 px-3 py-2 rounded-md text-gray-400 ">
-            📁 <span>ประวัติการรักษา</span>
+            📁 <span>เพิ่มข้อมูลยา</span>
           </a>
           <a href="#" className="flex items-center gap-4 px-3 py-2 rounded-md text-gray-400 ">
             ⚙️ <span>ตั้งค่า</span>

@@ -10,7 +10,7 @@ function Navlogout() {
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* Logo / Brand */}
-          <Link href="/" className="text-lg font-semibold text-gray-800 hover:text-black transition">
+          <Link href="/welcome" className="text-lg font-semibold text-gray-800 hover:text-black transition">
             nextauth
           </Link>
 

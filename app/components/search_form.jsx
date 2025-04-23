@@ -44,7 +44,13 @@ export default function SearchForm() {
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (/^\d*$/.test(value) && value.length <=13) {
+            setQuery(value)
+          }
+            
+        }}
         placeholder="ค้นหาชื่อหรือเลขบัตร . . ."
         className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
       />

@@ -12,14 +12,14 @@ export async function POST(req) {
 
     await connectMongoDB();
 
-    // ✅ ใช้ .lean() เพื่อให้ได้ plain JS object (ไม่ใช่ Mongoose document)
+    // ใช้ .lean() เพื่อให้ได้ plain JS object (ไม่ใช่ Mongoose document)
     const patient = await Patient.findOne({ critizen_id }).lean();
 
     if (!patient) {
       return NextResponse.json({ found: false, message: "User not found" }, { status: 404 });
     }
 
-    console.log("📦 patient.history from Mongo:", patient.history);
+    //console.log(" patient.history from Mongo:", patient.history);
 
     return NextResponse.json({
       found: true,
