@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import LoadingOverlay from './LoadingOverlay';
+import PatientSidebarLeft from './sidebar/PatientSidebarLeft';
 
 export default function ProfileInfo() {
   const { citizen_id } = useParams();
@@ -42,26 +43,8 @@ export default function ProfileInfo() {
   return (
     <div className="min-h-screen flex bg-gray-50 text-gray-800">
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 shadow-sm flex flex-col py-6 px-4 space-y-6">
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-2">
-          <div className="w-10 h-10 bg-gray-100 text-indigo-500 rounded-lg flex items-center justify-center font-bold text-lg">H</div>
-          <span className="text-xl font-semibold text-gray-700">HealthPortal</span>
-        </div>
-  
-        {/* Menu */}
-        <nav className="flex flex-col gap-5 mt-6 text-sm text-gray-700 font-medium">
-          <a href={`/welcome/profile/${citizen_id}`} className="flex items-center gap-4 px-3 py-2 rounded-md hover:bg-gray-100 text-indigo-600 font-semibold">
-            📋 <span>ข้อมูลผู้ป่วย</span>
-          </a>
-          <a href={`/welcome/profile/${citizen_id}/history`} className="flex items-center gap-4 px-3 py-2 rounded-md text-gray-400 ">
-            📁 <span>เพิ่มข้อมูลยา</span>
-          </a>
-          <a href="#" className="flex items-center gap-4 px-3 py-2 rounded-md text-gray-400 ">
-            ⚙️ <span>ตั้งค่า</span>
-          </a>
-        </nav>
-      </aside>
+      <PatientSidebarLeft/>
+      
   
       {/* Main Content */}
       <main className="flex-1 p-10 space-y-8">
@@ -117,41 +100,68 @@ export default function ProfileInfo() {
               </div>
             </div>
           </div>
-  
-          {/* ประวัติการรักษา */}
-          {/* ประวัติการรักษา */}
-{Array.isArray(data.patient.history) && (
-  <div className="col-span-1 lg:col-span-2">
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-      <h3 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
-        📁 ประวัติการจ่ายยา
-      </h3>
-
-      {data.patient.history.length === 0 ? (
-        <p className="text-sm text-gray-500">ไม่มีประวัติการรักษา</p>
-      ) : (
-        <div className="space-y-4">
-          {data.patient.history.map((entry, index) => (
-            <div
-              key={index}
-              className="border rounded-lg p-4 bg-gray-50 text-sm space-y-2"
-            >
-              <p className="text-sm font-semibold text-gray-800">📅 วันที่ {entry.date}</p>
-<ul className="list-disc ml-6 text-gray-700">
-  {Object.entries(entry.medical || {}).map(([medName, amount]) => (
-    <li key={medName}>{medName} <span className="text-gray-500">({amount} เม็ด)</span></li>
-  ))}
-</ul>
-            </div>
-          ))}
         </div>
-      )}
+        {/* ประวัติการรักษา */}
+        <div className="grid grid-cols-3 gap-6">
+  {/* ประวัติการจ่ายยา */}
+  {Array.isArray(data.patient.history) && (
+    <div className="col-span-1">
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h3 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          📁 ประวัติการจ่ายยา
+        </h3>
+
+        {data.patient.history.length === 0 ? (
+          <p className="text-sm text-gray-500">ไม่มีประวัติการรักษา</p>
+        ) : (
+          <div className="space-y-4">
+            {data.patient.history.map((entry, index) => (
+              <div key={index} className="border rounded-lg p-4 bg-gray-50 text-sm space-y-2">
+                <p className="text-sm font-semibold text-gray-800">📅 วันที่ {entry.date}</p>
+                <ul className="list-disc ml-6 text-gray-700">
+                  {Object.entries(entry.medical || {}).map(([medName, amount]) => (
+                    <li key={medName}>{medName} <span className="text-gray-500">({amount} เม็ด)</span></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-)}
+  )}
 
-        </div>
+  {/* ประวัติ SOAP */}
+  {Array.isArray(data.patient.soap) && (
+    <div className="col-span-2">
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <h3 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
+          📋 ประวัติ SOAP
+        </h3>
+
+        {data.patient.soap.length === 0 ? (
+          <p className="text-sm text-gray-500">ไม่มีข้อมูล SOAP</p>
+        ) : (
+          <div className="space-y-4">
+            {data.patient.soap.slice().reverse().map((entry, index) => (
+              <div key={index} className="border rounded-lg p-4 bg-gray-50 text-sm space-y-1">
+                {entry.date && (
+                  <p className="text-xs text-gray-500">📅 บันทึกเมื่อ: {entry.date}</p>
+                )}
+                <p><strong>S:</strong> {entry.subjective}</p>
+                <p><strong>O:</strong> {entry.objective}</p>
+                <p><strong>A:</strong> {entry.assessment}</p>
+                <p><strong>P:</strong> {entry.plan}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )}
+</div>
       </main>
+      
   
       {/* Profile Side */}
       <aside className="w-72 bg-white px-6 py-8 border-l border-gray-100 shadow-sm hidden lg:block">

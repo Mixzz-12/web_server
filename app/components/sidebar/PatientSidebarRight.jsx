@@ -7,7 +7,7 @@ import LoadingOverlay from '../LoadingOverlay';
 export default function PatientSidebarRight() {
   const { citizen_id } = useParams();
   const [patient, setPatient] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ state loading
+  const [loading, setLoading] = useState(true); //  state loading
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,9 +22,9 @@ export default function PatientSidebarRight() {
           setPatient(data.patient);
         }
       } catch (err) {
-        console.error("❌ Fetch error:", err);
+        console.error(" Fetch error:", err);
       } finally {
-        setLoading(false); // ✅ หยุด loading ไม่ว่าจะสำเร็จหรือพลาด
+        setLoading(false); //  หยุด loading ไม่ว่าจะสำเร็จหรือพลาด
       }
     };
 
@@ -32,13 +32,15 @@ export default function PatientSidebarRight() {
       fetchData();
     }
   }, [citizen_id]);
-
-  // ✅ แสดงข้อความขณะโหลด
+  //  แสดงข้อความขณะโหลด
   if (loading) {
     return (
       <LoadingOverlay/>
     );
   }
+  const latestSOAP = patient?.soap?.length > 0
+  ? patient.soap[patient.soap.length - 1]
+  : null;
 
   if (!patient) return null;
 
@@ -68,6 +70,25 @@ export default function PatientSidebarRight() {
           ศาสนา<br /><span className="font-medium text-gray-700">{religion}</span>
         </div>
       </div>
+      {latestSOAP && (
+  <div className="mt-8 space-y-2 text-xs">
+    <h3 className="text-sm font-semibold text-gray-600">📋 SOAP ล่าสุด</h3>
+    <div className="bg-gray-50 border border-gray-100 rounded-md p-3 space-y-2">
+      <div>
+        <span className="font-semibold text-gray-700">S:</span> {latestSOAP.subjective}
+      </div>
+      <div>
+        <span className="font-semibold text-gray-700">O:</span> {latestSOAP.objective}
+      </div>
+      <div>
+        <span className="font-semibold text-gray-700">A:</span> {latestSOAP.assessment}
+      </div>
+      <div>
+        <span className="font-semibold text-gray-700">P:</span> {latestSOAP.plan}
+      </div>
+    </div>
+  </div>
+)}
     </aside>
   );
 }

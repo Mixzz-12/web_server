@@ -47,6 +47,7 @@ export default function Home() {
             </motion.button>
           </Link>
 
+          <Link href="client">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -54,6 +55,7 @@ export default function Home() {
           >
             I'm a Client
           </motion.button>
+          </Link>
         </motion.div>
       </div>
       <AnimatedBlob />

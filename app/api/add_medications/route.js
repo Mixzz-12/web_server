@@ -38,7 +38,7 @@ export async function POST(req) {
       },
       { new: true }
     ).select('critizen_id name medications history');
-
+    console.log(medication)
     if (!updated) {
       return NextResponse.json({ message: "Patient not found" }, { status: 404 });
     }
@@ -47,6 +47,7 @@ export async function POST(req) {
       message: "Medications updated & history recorded",
       patient: updated
     });
+    
 
   } catch (error) {
     console.error("Error in add-medication:", error);

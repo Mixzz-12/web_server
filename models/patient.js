@@ -9,6 +9,7 @@ const patientSchema = new mongoose.Schema({
   gender: String,
   nation: String,
   religion: String,
+  code_machine: String,
   history: [
     {
       date: String,
@@ -28,7 +29,16 @@ const patientSchema = new mongoose.Schema({
       },
       note: String
     }
-  ]
+  ],
+  soap: [
+    {
+      subjective: String,
+      objective: String,
+      assessment: String,
+      plan: String,
+      date:String,
+    }
+  ],
 });
 
 const Patient = mongoose.models.Patient || mongoose.model("Patient", patientSchema, "medical_history");

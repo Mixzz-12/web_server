@@ -32,19 +32,30 @@ export async function POST(req) {
         gender: patient.gender,
         nation: patient.nation,
         religion: patient.religion,
-
-        // ✅ แปลง medical เป็น plain object เสมอ
+    
         history: Array.isArray(patient.history)
           ? patient.history.map((entry) => ({
               date: entry.date,
               medical: { ...entry.medical },
             }))
           : [],
+    
+      
+        soap: Array.isArray(patient.soap)
+          ? patient.soap.map((entry) => ({
+              subjective: entry.subjective,
+              objective: entry.objective,
+              assessment: entry.assessment,
+              plan: entry.plan,
+              date: entry.date ?? null 
+            }))
+          : []
       },
     });
+    
 
   } catch (error) {
-    console.error("❌ api search-user error:", error);
+    console.error("api search-user error:", error);
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
