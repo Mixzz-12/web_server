@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import LoadingOverlay from "../components/LoadingOverlay";
 import AnimatedBlob from "../components/motion/AnimatedBlob";
-
+import { getSession } from "next-auth/react";
 
 export default function PageLogin() {
   const [user, setUser] = useState("");
@@ -31,7 +31,18 @@ export default function PageLogin() {
       setLoading(false)
       setPassword("");
     } else {
-      router.replace("/welcome");
+      const session = await getSession();
+      console.log("Session after login:", session);
+      if (session?.user?.role === "client") {
+        router.replace("/client");
+      } else if (session?.user?.role === "doctor") {
+        router.replace("/welcome");
+      } else {
+        setError("You can not login");
+        setLoading(false)
+        setPassword("");
+      }
+      //router.replace("/welcome");
     }
   };
 
@@ -45,7 +56,7 @@ export default function PageLogin() {
         onSubmit={handleSubmit}
         className="w-full max-w-sm bg-white shadow-md rounded-xl p-8 space-y-4"
       >
-        <h2 className="text-3xl font-light text-center text-gray-900 mb-2">Welcome, Doctor</h2>
+        <h2 className="text-3xl font-light text-center text-gray-900 mb-2">Welcome to website</h2>
         <h3 className="text-base font-normal text-center text-gray-600 mb-6">Please sign in to continue</h3>
         <input
           type="text"

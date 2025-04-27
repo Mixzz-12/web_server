@@ -1,5 +1,14 @@
-{
-    "id":"1234",
-    "name":"mairuu",
-    "password":"admin"
-}
+[
+    {
+        "id": "1234",
+        "name": "mairuu",
+        "password": "admin",
+        "role": "doctor"
+    },
+    {
+        "name": "1000000000000",
+        "password": "kasdf",
+        "role": "client",
+        "DeviceID": "4022d877053c"
+    }
+]

@@ -1,84 +1,162 @@
-'use client';
+"use client";
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Navbar from "../components/Navbar";
+import { getSession, signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
 import LoadingOverlay from "../components/LoadingOverlay";
-import AnimatedBlob from "../components/motion/AnimatedBlob";
 
 
-export default function PageLogin() {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+export default function PatientDashboard() {
+  const [patientData, setPatientData] = useState(null);
   const [error, setError] = useState("");
-  const router = useRouter();
-  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true)
-    setError("");
+  useEffect(() => {
+    async function fetchData() {
+      const session = await getSession();
+      if (!session) {
+        setError("Please login first.");
+        return;
+      }
 
-    const res = await signIn("credentials", {
-      user,
-      password,
-      redirect: false,
-    });
+      const critizen_id = session.user.name;
 
-    if (res?.error) {
-      setError("Login failed. Please check your username and password.");
-      setLoading(false)
-      setPassword("");
-    } else {
-      router.replace("/welcome");
+      try {
+        const [res1, res2] = await Promise.all([
+          fetch("/api/search_user", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ critizen_id }),
+          }),
+          fetch("/api/machine_api/fetch_user", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ critizen_id }),
+          }),
+        ]);
+
+        const data1 = await res1.json();
+        const data2 = await res2.json();
+
+        if (res1.ok && data1.found && res2.ok && data2.found) {
+          setPatientData({
+            ...data1.patient,
+            extra: data2.User_find, // <<< แก้ให้ถูก field
+          });
+        } else {
+          setError("Some data not found");
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Something went wrong");
+      }
     }
-  };
+
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <p className="text-red-500 text-center mt-10">{error}</p>;
+  }
+
+  if (!patientData) {
+    return <LoadingOverlay/>
+  }
 
   return (
-    <>
-    {loading && <LoadingOverlay />}
-    <Navbar/>
-    <div className="bg-white flex items-center justify-center min-h-screen bg-gradient-to-br from-white to-gray-100 px-4">
+    <div className="flex min-h-screen bg-gray-100">
       
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-white shadow-md rounded-xl p-8 space-y-4"
-      >
-        <h2 className="text-3xl font-light text-center text-gray-900 mb-2">Welcome, Doctor</h2>
-        <h3 className="text-base font-normal text-center text-gray-600 mb-6">Please sign in to continue</h3>
-        <input
-          type="text"
-          placeholder="Username"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 transition "
-          required
-        />
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-lg p-6 flex flex-col">
+        <h2 className="text-xl font-bold mb-8">HealthPortal</h2>
+        <nav className="flex flex-col space-y-4 text-gray-700">
+          <a href="#" className="font-semibold text-indigo-600">ข้อมูลผู้ป่วย</a>
+          <a href="/client/machine">ตู้จ่ายยา</a>
+        </nav>
+      </aside>
 
-        {error && (
-          <p className="text-sm text-red-600 bg-red-100 border border-red-300 rounded-md px-4 py-2">
-            {error}
-          </p>
-        )}
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        
+        {/* TopBar */}
+        <header className="flex justify-between items-center bg-white shadow px-8 py-4">
+          <h1 className="text-2xl font-semibold">Health Portal</h1>
+          <button 
+            onClick={() => signOut()} 
+            className="bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700, cursor-pointer"
+          >
+            Sign Out
+          </button>
+        </header>
 
-        <button
-          type="submit"
-          className="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-black transition cursor-pointer"
-        >
-          Login
-        </button>
-      </form>
+        {/* Body */}
+        <main className="flex flex-1 p-8 gap-8">
+          
+          {/* Patient Info */}
+          <div className="flex-1 space-y-8">
+            
+            {/* ข้อมูลส่วนตัว */}
+            <section className="bg-white p-6 rounded-lg shadow">
+              <h2 className="text-xl font-bold mb-4">ข้อมูลส่วนตัว</h2>
+              <div className="grid grid-cols-2 gap-4 text-gray-700">
+                <div><strong>ชื่อ:</strong> {patientData.name}</div>
+                <div><strong>อายุ:</strong> {patientData.age} ปี</div>
+                <div><strong>น้ำหนัก:</strong> {patientData.weight} กก.</div>
+                <div><strong>ส่วนสูง:</strong> {patientData.height} ซม.</div>
+                <div><strong>ศาสนา:</strong> {patientData.religion}</div>
+                <div><strong>Device ID:</strong> {patientData.extra?.device_id || "N/A"}</div> {/* ใช้ device id จาก extra */}
+              </div>
+            </section>
+
+            {/* ประวัติการรักษา */}
+            <section className="bg-white p-6 rounded-lg shadow">
+              <h2 className="text-xl font-bold mb-4">ประวัติการจ่ายยา</h2>
+              {patientData.history?.length ? (
+                <div className="space-y-4">
+                  {patientData.history.map((entry, idx) => (
+                    <div key={idx} className="border rounded p-4">
+                      <div className="font-semibold mb-2">{entry.date}</div>
+                      <ul className="list-disc pl-5 text-gray-700">
+                        {Object.entries(entry.medical).map(([medName, amount], index) => (
+                          <li key={index}>{medName} ({amount})</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">ไม่มีประวัติการจ่ายยา</p>
+              )}
+            </section>
+
+          </div>
+
+          {/* Profile Card */}
+          
+          <div className="w-80">
+            <div className="bg-white p-6 rounded-lg shadow text-center space-y-4">
+              
+              <div className="text-6xl">
+                {patientData.gender === "ชาย" ? "👨‍⚕️" : patientData.gender === "หญิง" ? "👩‍⚕️" : "👤"}
+              </div>
+    
+              <div className="text-xl font-semibold">{patientData.name}</div>
+              <div className="text-gray-500">{patientData.nation}</div>
+              <div className="grid grid-cols-2 gap-4 text-sm mt-4 text-gray-700">
+                <div><strong>อายุ</strong><br/>{patientData.age}</div>
+                <div><strong>น้ำหนัก</strong><br/>{patientData.weight} กก.</div>
+                <div><strong>ส่วนสูง</strong><br/>{patientData.height} ซม.</div>
+                <div><strong>ศาสนา</strong><br/>{patientData.religion}</div>
+                <div className="col-span-2 mt-2">
+                  <strong>Device ID</strong><br/>
+                  {patientData.extra?.device_id || "ไม่พบข้อมูล"}
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </main>
+
+      </div>
     </div>
-    <AnimatedBlob/>
-    </>
   );
 }

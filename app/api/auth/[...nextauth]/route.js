@@ -1,3 +1,2 @@
-import { handlers } from '@/auth'; // << ชี้ไปที่ auth.js
-
+import { handlers } from "@/auth";
 export const { GET, POST } = handlers;

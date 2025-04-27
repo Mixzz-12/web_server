@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "@auth/core/providers/credentials";
 import { connectMongoDB } from "@/lib/mongodb";
-import User from "@/models/user"; // ✅ ชื่อไฟล์เป็น user.js (ตัวเล็ก)
+import User from "@/models/user"; // ชื่อไฟล์เป็น user.js (ตัวเล็ก)
 
 export const { auth, handlers } = NextAuth({
   providers: [
@@ -32,6 +32,7 @@ export const { auth, handlers } = NextAuth({
         return {
           id: user._id.toString(),
           name: user.name,
+          role: user.role,
         };
       },
     }),
@@ -44,4 +45,23 @@ export const { auth, handlers } = NextAuth({
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      // Initial sign in
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+        token.role = user.role;  
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.name = token.name;
+        session.user.role = token.role;  
+      }
+      return session;
+    },
+  },
 });

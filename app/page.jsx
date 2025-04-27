@@ -43,19 +43,10 @@ export default function Home() {
               whileTap={{ scale: 0.95 }}
               className="px-6 py-2 bg-gray-900 text-white rounded-md hover:bg-black transition cursor-pointer"
             >
-              I'm a Doctor
+              Sign In
             </motion.button>
           </Link>
 
-          <Link href="client">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-100 transition cursor-pointer"
-          >
-            I'm a Client
-          </motion.button>
-          </Link>
         </motion.div>
       </div>
       <AnimatedBlob />
