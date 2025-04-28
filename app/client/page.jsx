@@ -69,7 +69,8 @@ export default function PatientDashboard() {
         <h2 className="text-xl font-bold mb-8">HealthPortal</h2>
         <nav className="flex flex-col space-y-4 text-gray-700">
           <a href="#" className="font-semibold text-indigo-600">ข้อมูลผู้ป่วย</a>
-          <a href="/client/machine">ตู้จ่ายยา</a>
+          <a href="/client/machine">ควบคุมตู้จ่ายยา</a>
+          <a href="/client/time_setting">ตั้งเวลา</a>
         </nav>
       </aside>
 

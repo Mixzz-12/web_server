@@ -84,8 +84,9 @@ export default function MqttControlPage() {
       <aside className="w-64 bg-white shadow-lg p-6 flex flex-col">
         <h2 className="text-xl font-bold mb-8">MQTT Control</h2>
         <nav className="flex flex-col space-y-4 text-gray-700">
-          <a href="/dashboard">ข้อมูลผู้ป่วย</a>
+          <a href="/client">ข้อมูลผู้ป่วย</a>
           <a href="#" className="font-semibold text-indigo-600">ควบคุมตู้จ่ายยา</a>
+          <a href="/client/time_setting">ตั้งเวลา</a>
         </nav>
       </aside>
   

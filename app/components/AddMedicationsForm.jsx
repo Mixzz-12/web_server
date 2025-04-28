@@ -65,13 +65,14 @@ export default function AddMedicationsForm() {
     e.preventDefault();
     setError('');
     setSuccess('');
-
+  
     if (!citizen_id || medications.some(m => !m.name || !m.quantity || !m.compartment)) {
       setError('กรุณากรอกข้อมูลให้ครบ');
       return;
     }
-
+  
     try {
+      // 1. บันทึกยา
       const res = await fetch('/api/add_medications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -80,27 +81,45 @@ export default function AddMedicationsForm() {
           medication: medications
         }),
       });
-
+  
       const data = await res.json();
-      if (res.ok) {
-        setSuccess('บันทึกยาและประวัติเรียบร้อยแล้ว');
-        setMedications([
-          {
-            name: '',
-            quantity: '',
-            timing: { meal: '', times: [] },
-            compartment: '',
-            note: ''
-          }
-        ]);
-      } else {
-        setError(data.message || 'เกิดข้อผิดพลาด');
+  
+      if (!res.ok) {
+        throw new Error(data.message || 'เกิดข้อผิดพลาดตอนบันทึกยา');
       }
+  
+      // 2. ส่งข้อมูล MQTT
+      const res2 = await fetch('/api/machine_api/send_medication_mqtt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          critizen_id: citizen_id
+        }),
+      });
+  
+      const data2 = await res2.json();
+  
+      if (!res2.ok) {
+        throw new Error(data2.message || 'เกิดข้อผิดพลาดตอนส่ง MQTT');
+      }
+  
+      // ✅ ถ้าทั้ง 2 สำเร็จ
+      setSuccess('บันทึกยาและส่งข้อมูลไปยังเครื่องเรียบร้อยแล้ว ✅');
+      setMedications([
+        {
+          name: '',
+          quantity: '',
+          timing: { meal: '', times: [] },
+          compartment: '',
+          note: ''
+        }
+      ]);
     } catch (err) {
       console.error('Submit error:', err);
-      setError('เกิดข้อผิดพลาด');
+      setError(err.message || 'เกิดข้อผิดพลาด');
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-xl mx-auto">
