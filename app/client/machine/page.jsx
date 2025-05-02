@@ -117,11 +117,9 @@ export default function MqttControlPage() {
                 <button 
                   key={servo}
                   onClick={() => {
-                    if (servo === 5) {
-                      sendMqttCommand("rotate_plate"); // ถ้า servo5 ส่ง rotate_plate
-                    } else {
+                    
                       sendMqttCommand(`servo_${servo}`);
-                    }
+                    
                   }}
                   disabled={loading}
                   className="w-full aspect-square bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-lg shadow transition flex flex-col items-center justify-center gap-4 disabled:opacity-50"

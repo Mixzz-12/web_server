@@ -27,6 +27,7 @@ const patientSchema = new mongoose.Schema({
         meal: String,
         times: [String]
       },
+      compartment: String,
       note: String
     }
   ],
