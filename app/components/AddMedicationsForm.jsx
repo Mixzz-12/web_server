@@ -176,9 +176,9 @@ export default function AddMedicationsForm() {
             className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700"
           >
             <option value="">-- เลือกเวลา --</option>
-            <option value="ก่อนอาหาร">ก่อนอาหาร</option>
-            <option value="หลังอาหาร">หลังอาหาร</option>
-            <option value="ก่อนนอน">ก่อนนอน</option>
+            <option value="before">ก่อนอาหาร</option>
+            <option value="after">หลังอาหาร</option>
+            <option value="sleep">ก่อนนอน</option>
           </select>
 
           {/* เวลา: เช้า เที่ยง เย็น */}
