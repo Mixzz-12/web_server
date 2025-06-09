@@ -124,11 +124,11 @@ export default function TimePage() {
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
       <aside className="w-64 bg-white shadow-lg p-6 flex flex-col">
-        <h2 className="text-xl font-bold mb-8">Time Setting</h2>
+        <h2 className="text-xl font-bold mb-8">Menu</h2>
         <nav className="flex flex-col space-y-4 text-gray-700">
-          <a href="/client">ข้อมูลผู้ป่วย</a>
-          <a href="/client/machine">ควบคุมตู้จ่ายยา</a>
-          <a href="#" className="font-semibold text-indigo-600">ตั้งเวลา</a>
+          <a href="/client" className="font-sans">📋ข้อมูลผู้ป่วย</a>
+          <a href="/client/machine">⚙️ ควบคุมตู่จ่ายยา</a>
+          <a href="#" className="font-semibold text-indigo-600">⏰ ตั้งเวลา</a>
         </nav>
       </aside>
 

@@ -22,19 +22,15 @@ export default function PatientSidebarLeft() {
       label: 'เพิ่มข้อมูลยา',
       icon: '📁',
     },
-    {
-      href: '#',
-      label: 'ตั้งค่า',
-      icon: '⚙️',
-    },
+
   ];
 
   return (
     <aside className="w-64 min-h-screen bg-white border-r border-gray-200 shadow-sm flex flex-col py-6 px-4 space-y-6">
       {/* Logo */}
       <div className="flex items-center gap-3 px-2">
-        <div className="w-10 h-10 bg-gray-100 text-indigo-500 rounded-lg flex items-center justify-center font-bold text-lg">H</div>
-        <span className="text-xl font-semibold text-gray-700">HealthPortal</span>
+        <div className="w-10 h-10 bg-gray-100 text-indigo-500 rounded-lg flex items-center justify-center font-bold text-lg">M</div>
+        <span className="text-xl font-semibold text-gray-700">Menu</span>
       </div>
 
       {/* Menu */}

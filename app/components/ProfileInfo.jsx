@@ -50,7 +50,7 @@ export default function ProfileInfo() {
       <main className="flex-1 p-10 space-y-8">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-semibold text-gray-800">ข้อมูลผู้ป่วย</h1>
+          <h1 className="text-2xl font-semibold text-gray-800">📋ข้อมูลผู้ป่วย</h1>
           <p className="text-sm text-gray-500">รายละเอียดผู้ป่วยในระบบ</p>
         </div>
   

@@ -13,32 +13,28 @@ export async function POST(req) {
 
     await connectMongoDB();
 
-    const existingPatient = await Patient.findOne({ critizen_id }).lean();
+    // ตรวจสอบว่ามี patient นี้อยู่แล้วหรือไม่
+    const existingPatient = await Patient.findOne({ critizen_id });
 
     if (existingPatient) {
+      // อัพเดตข้อมูล patient ด้วยข้อมูลใหม่ที่ส่งมา
+      Object.assign(existingPatient, data);
+      await existingPatient.save();
+
       return NextResponse.json({
-        message: "Patient already exists",
+        message: "Patient updated successfully",
         patient: existingPatient,
       }, { status: 200 });
+    } else {
+      // สร้าง patient ใหม่ถ้าไม่พบ
+      const newPatient = new Patient({ ...data, history: [] });
+      await newPatient.save();
+
+      return NextResponse.json({
+        message: "Patient added successfully",
+        patient: newPatient,
+      }, { status: 201 });
     }
-
-    const newPatient = new Patient({ ...data, history: [] });
-    await newPatient.save();
-
-    return NextResponse.json({
-      message: "Patient added successfully",
-      patient: {
-        critizen_id: newPatient.critizen_id,
-        name: newPatient.name,
-        age: newPatient.age,
-        height: newPatient.height,
-        weight: newPatient.weight,
-        gender: newPatient.gender,
-        nation: newPatient.nation,
-        religion: newPatient.religion,
-        history: [],
-      },
-    }, { status: 201 });
 
   } catch (err) {
     console.error("❌ Error in add_patient:", err);

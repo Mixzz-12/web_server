@@ -31,38 +31,58 @@ export default function AddPatientPage() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validateForm()) {
-      alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
-      return;
-    }
+  if (!validateForm()) {
+    alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const res = await fetch('/api/add_patient', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
+  try {
+    const res = await fetch('/api/add_patient', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (res.status === 201) {
-        router.push(`/welcome/add-patient/success?citizen_id=${form.critizen_id}`);
-      } else if (res.status === 200 && data.patient) {
-        alert('⚠️ ผู้ป่วยคนนี้มีอยู่แล้วในระบบ');
-      } else {
-        alert('❌ เกิดข้อผิดพลาดในการบันทึก');
+    if (res.status === 201) {
+      router.push(`/welcome/add-patient/success?citizen_id=${form.critizen_id}`);
+    } else if (res.status === 200 && data.patient) {
+      const confirmUpdate = window.confirm(
+        '⚠️ ผู้ป่วยคนนี้มีอยู่แล้วในระบบ ต้องการเปลี่ยนแปลงข้อมูลหรือไม่?'
+      );
+
+      if (confirmUpdate) {
+        // ส่งอัพเดตข้อมูลซ้ำ
+        const updateRes = await fetch('/api/add_patient', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form),
+        });
+
+        if (updateRes.ok) {
+          alert('✅ อัพเดตข้อมูลสำเร็จ');
+          router.push(`/welcome/add-patient/success?citizen_id=${form.critizen_id}`);
+        } else {
+          alert('❌ อัพเดตข้อมูลล้มเหลว');
+        }
       }
-    } catch (err) {
-      console.error('Error submitting:', err);
-      alert('❌ เกิดข้อผิดพลาด');
-    } finally {
-      setLoading(false);
+      // ถ้าไม่กดตกลง ก็ไม่ทำอะไรต่อ
+    } else {
+      alert('❌ เกิดข้อผิดพลาดในการบันทึก');
     }
-  };
+  } catch (err) {
+    console.error('Error submitting:', err);
+    alert('❌ เกิดข้อผิดพลาด');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div>

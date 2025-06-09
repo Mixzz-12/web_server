@@ -20,9 +20,11 @@ export async function POST(req) {
             found:true,
             User_find:{
                 name: User_find.name,
-                device_id: User_find.device_id
+                device_id: User_find.device_id,
+                medications: User_find.medications || [],
             }
         })
+        console.log(medications)
     }catch(err){
         console.error("api search-user error:", err);
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });

@@ -1,0 +1,13 @@
+{
+    "breakfast":{
+        "before":{
+            "time":"6.30",
+            "medications":{
+                "servo_1":{
+                    "paracetamal":"1"
+                }
+                
+            }
+        }
+    }
+}

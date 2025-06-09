@@ -11,7 +11,7 @@ function Navlogout() {
         <div className="flex justify-between items-center">
           {/* Logo / Brand */}
           <Link href="/welcome" className="text-lg font-semibold text-gray-800 hover:text-black transition">
-            nextauth
+            PharmaNetix
           </Link>
 
           {/* Navigation / Actions */}
