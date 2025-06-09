@@ -95,7 +95,7 @@ export default function PatientDashboard() {
           <a href="#" className="font-semibold text-indigo-600">
             📋ข้อมูลผู้ป่วย
           </a>
-          <a href="/client/machine">⚙️ ควบคุมตู่จ่ายยา</a>
+          <a href="/client/machine">⚙️ ควบคุมตู้จ่ายยา</a>
           <a href="/client/time_setting">⏰ ตั้งเวลา</a>
         </nav>
       </aside>

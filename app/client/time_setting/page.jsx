@@ -127,7 +127,7 @@ export default function TimePage() {
         <h2 className="text-xl font-bold mb-8">Menu</h2>
         <nav className="flex flex-col space-y-4 text-gray-700">
           <a href="/client" className="font-sans">📋ข้อมูลผู้ป่วย</a>
-          <a href="/client/machine">⚙️ ควบคุมตู่จ่ายยา</a>
+          <a href="/client/machine">⚙️ ควบคุมตู้จ่ายยา</a>
           <a href="#" className="font-semibold text-indigo-600">⏰ ตั้งเวลา</a>
         </nav>
       </aside>
